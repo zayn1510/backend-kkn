@@ -13,7 +13,7 @@ class Mailer{
         $mail->SMTPSecure = 'tls';
         $mail->Port = 587;
         $mail->Username = 'kensinoode15k@gmail.com';
-        $mail->Password = 'hguswpuyklzndxsd';
+        $mail->Password = 'mimo zdhf cwzt tonp';
         // Sender &amp; Recipient
         $mail->From = getenv("MAIL_FROM_ADDRESS");
         $mail->FromName =getenv("MAIL_FROM_NAME");

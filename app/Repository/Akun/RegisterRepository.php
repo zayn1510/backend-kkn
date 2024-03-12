@@ -4,6 +4,7 @@ use App\Http\Requests\akun\RegistrasiRequest;
 use App\Models\akun\PenggunaModel;
 use App\Models\mahasiswa\MahasiswaModel;
 use App\Models\User;
+use DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -14,6 +15,7 @@ class RegisterRepository{
     public static function register_akun(RegistrasiRequest $registrasiRequest):JsonResponse{
 
         try {
+            DB::beginTransaction();
             $registrasiRequest["token"]=Str::password(40);
             $mhs=MahasiswaModel::where("nim_mhs",$registrasiRequest->only("nim"))->get();
             if(count($mhs)==0){
@@ -32,10 +34,15 @@ class RegisterRepository{
                 return response()->json(["message"=>"nim already be there","success"=>false,"nim"=>true],200);
             }
 
+            $mahasiswa=MahasiswaModel::where("nim_mhs",$registrasiRequest["nim"])->first();
+            $mahasiswa->email_mhs=$registrasiRequest["email"];
+            $mahasiswa->save();
             // // create account user
             User::create($registrasiRequest->all());
+            DB::commit();
             return response()->json(["message"=>"registrasi has success","success"=>true],200);
         } catch (\Throwable $th) {
+            DB::rollBack();
             return response()->json(["message"=>"Error ".$th->getMessage(),"success"=>false]);
         }
     }

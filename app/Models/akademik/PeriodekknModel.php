@@ -11,7 +11,7 @@ class PeriodekknModel extends Model
     protected $table = 'tbl_periode_kkn';
 
     protected $primaryKey = 'id_periode_kkn';
-    public $timestamps=false;
+    public $timestamps = false;
 
-    protected $fillable=["id_periode_kkn","tahun_akademik","angkatan","status","tgl_akademik","status_pendaftaran"];
+    protected $fillable = ["id_periode_kkn", "tahun_akademik", "angkatan", "status", "tgl_akademik", "status_pendaftaran", "tgl_mulai", "tgl_selesai"];
 }

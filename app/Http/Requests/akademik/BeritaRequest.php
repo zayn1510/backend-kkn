@@ -25,7 +25,7 @@ class BeritaRequest extends FormRequest
     {
         return [
             "id_berita" =>["integer"],
-            "judul"     => ["required","string","max:100"],
+            "judul"     => ["required","string","max:255"],
             "thumbnail" => ["required","string","max:50"],
             "author"    => ["required","string","max:30"],
             "konten"    => ["required","string"],

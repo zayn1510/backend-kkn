@@ -113,9 +113,8 @@ class CalonkknRepository{
             "mhs.angkatan_mhs"
 
             )->get();
-            $data=CalonKknResource::collection($result);
             return response()->json([
-                "data"=>$data,
+                "data"=>$result,
                 "message"=>"success",
                 "success"=>true
             ]);

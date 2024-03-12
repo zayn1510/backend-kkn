@@ -66,16 +66,16 @@
                                 <tbody style="font-size: 12px">
                                     <tr class="text-center" ng-repeat="row in datapesertakkn">
                                         <td>@{{ $index + 1 }}</td>
-                                        <td>@{{ row.nimmhs }}</td>
-                                        <td>@{{ row.namalengkapmhs }}</td>
-                                        <td>@{{ row.tahunperiodekkn }}</td>
-                                        <td>@{{ row.angkatanperiodekkn }}</td>
+                                        <td>@{{ row.nim_mhs }}</td>
+                                        <td>@{{ row.nama_hs }}</td>
+                                        <td>@{{ row.tahun_akademik }}</td>
+                                        <td>@{{ row.angkatan }}</td>
                                         <td>
                                             <p class="alert alert-warning" ng-if="row.status==0">Sedang Proses</p>
                                             <p class="alert alert-success" ng-if="row.status==1">Diterima</p>
                                             <p class="alert alert-danger" ng-if="row.status==2">Tidak Diterima</p>
                                         </td>
-                                        <td>@{{ row.tgl }}</td>
+                                        <td>@{{ row.tgl_akademik }}</td>
                                         <td>
                                             <span class="fa fa-edit" style="font-size: 20px;color: yellow;cursor: pointer;"
                                                 ng-click="editData(row)"></span>

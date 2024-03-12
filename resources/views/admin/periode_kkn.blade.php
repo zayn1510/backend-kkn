@@ -22,7 +22,8 @@
                             </div>
                             <div class="col-2">
                                 <button class="btn btn-primary" data-toggle="modal" data-target="#myModal"
-                                    ng-click="tambahData()" style="width: 100%;"><i class="ti-plus"></i> Tambah Data</button>
+                                    ng-click="tambahData()" style="width: 100%;"><i class="ti-plus"></i> Tambah
+                                    Data</button>
                             </div>
                         </div>
                         <div class="data-tab">
@@ -35,6 +36,8 @@
                                         <th>Tanggal</th>
                                         <th>Status KKN</th>
                                         <th>Status Pendaftaran</th>
+                                        <th>Tanggal Mulai</th>
+                                        <th>Tanggal Selesai</th>
                                         <th>
                                             Aksi
                                         </th>
@@ -47,15 +50,22 @@
                                         <td>@{{ row.angkatan }}</td>
                                         <td>@{{ row.tanggal }}</td>
                                         <td>
-                                            <div class="alert alert-danger" style="cursor: pointer;" ng-if="row.status==0" ng-click="updateStatus(row,1)">Nonaktif</div>
-                                            <div class="alert alert-info" style="cursor: pointer;" ng-if="row.status==1" ng-click="updateStatus(row,0)">Aktif</div>
+                                            <div class="alert alert-danger" style="cursor: pointer;" ng-if="row.status==0"
+                                                ng-click="updateStatus(row,1)">Nonaktif</div>
+                                            <div class="alert alert-info" style="cursor: pointer;" ng-if="row.status==1"
+                                                ng-click="updateStatus(row,0)">Aktif</div>
 
                                         </td>
                                         <td>
-                                            <div class="alert alert-danger" name="status_pendaftaran" style="cursor: pointer;" ng-if="row.status_pendaftaran==0" ng-click="updateStatusPendaftaran(row,1,1)">Nonaktif</div>
-                                            <div class="alert alert-info" name="status_pendaftaran" style="cursor: pointer;" ng-if="row.status_pendaftaran==1" ng-click="updateStatusPendaftaran(row,0)">Aktif</div>
-
+                                            <div class="alert alert-danger" name="status_pendaftaran"
+                                                style="cursor: pointer;" ng-if="row.status_pendaftaran==0"
+                                                ng-click="updateStatusPendaftaran(row,1,1)">Nonaktif</div>
+                                            <div class="alert alert-info" name="status_pendaftaran" style="cursor: pointer;"
+                                                ng-if="row.status_pendaftaran==1" ng-click="updateStatusPendaftaran(row,0)">
+                                                Aktif</div>
                                         </td>
+                                        <td>@{{ row.tgl_mulai }}</td>
+                                        <td>@{{ row.tgl_selesai }}</td>
                                         <td>
                                             <span class="fa fa-edit" style="font-size: 20px;color: yellow;cursor: pointer;"
                                                 ng-click="editData(row)" data-toggle="modal" data-target="#myModal"></span>
@@ -78,26 +88,41 @@
 
                     <!-- Modal Header -->
                     <div class="modal-header">
-                        <h4 class="modal-title">@{{ket}}</h4>
+                        <h4 class="modal-title">@{{ ket }}</h4>
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
 
                     <!-- Modal body -->
                     <div class="modal-body">
-                        <div class="alert alert-danger" ng-show="check">@{{error}}</div>
+                        <div class="alert alert-danger" ng-show="check">@{{ error }}</div>
                         <div class="form-periode">
-                            <input type="text" class="form-control periode" placeholder="Tahun Akademik" oninput="changeBorder(event)">
-                        <p style="font-size: 12px;"><small style="color: red"> * </small>Wajib Di Isi</p>
+                            <input type="text" class="form-control periode" placeholder="Tahun Akademik"
+                                oninput="changeBorder(event)">
+                            <p style="font-size: 12px;"><small style="color: red"> * </small>Tahun Akademik</p>
                         </div>
 
                         <div class="form-periode">
-                            <input type="text" class="form-control periode" placeholder="Angkatan" oninput="changeBorder(event)">
-                            <p style="font-size: 12px;"><small style="color: red"> * </small> Wajib Di Isi</p>
+                            <input type="text" class="form-control periode" placeholder="Angkatan"
+                                oninput="changeBorder(event)">
+                            <p style="font-size: 12px;"><small style="color: red"> * </small> Angkatan</p>
                         </div>
 
                         <div class="form-periode">
-                            <input type="date" class="form-control periode" placeholder="Angkatan" oninput="changeBorder(event)">
-                            <p style="font-size: 12px;"><small style="color: red"> * </small> Wajib Di Isi</p>
+                            <input type="date" class="form-control periode" placeholder="Angkatan"
+                                oninput="changeBorder(event)">
+                            <p style="font-size: 12px;"><small style="color: red"> * </small> Tahun Akademik</p>
+                        </div>
+
+                        <div class="form-periode">
+                            <input type="date" class="form-control periode" placeholder="Angkatan"
+                                oninput="changeBorder(event)">
+                            <p style="font-size: 12px;"><small style="color: red"> * </small> Tanggal Mulai</p>
+                        </div>
+
+                        <div class="form-periode">
+                            <input type="date" class="form-control periode" placeholder="Angkatan"
+                                oninput="changeBorder(event)">
+                            <p style="font-size: 12px;"><small style="color: red"> * </small> Tanggal Selesai</p>
                         </div>
 
                         <div class="form-periode">
@@ -119,15 +144,18 @@
 
                     <!-- Modal footer -->
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-success" ng-hide="aksi" ng-click="savePeriode()"><i class="ti-save"></i> SIMPAN</button>
-                        <button type="button" class="btn btn-success" ng-show="aksi" ng-click="updatePeriode()"><i class="ti-save"></i> PERBARUI</button>
-                        <button type="button" class="btn btn-danger"data-dismiss="modal"><i class="ti-close"></i> BATAL</button>
+                        <button type="button" class="btn btn-success" ng-hide="aksi" ng-click="savePeriode()"><i
+                                class="ti-save"></i> SIMPAN</button>
+                        <button type="button" class="btn btn-success" ng-show="aksi" ng-click="updatePeriode()"><i
+                                class="ti-save"></i> PERBARUI</button>
+                        <button type="button" class="btn btn-danger"data-dismiss="modal"><i class="ti-close"></i>
+                            BATAL</button>
                     </div>
 
                 </div>
             </div>
         </div>
-        </div>
+    </div>
     </div>
 
     <div id="cover-spin">
@@ -135,8 +163,6 @@
             <h2 class="animate">Loading</h2>
         </div>
     </div>
-
-
 @endsection
 @section('javascript')
     <script src="{{ asset('assets/angularjs/angular.min.js') }}"></script>

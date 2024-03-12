@@ -4,6 +4,7 @@
  */
 namespace App\Repository\Mahasiswa;
 
+use App\Http\Requests\mahasiswa\MahasiswaRequest;
 use App\lib\Uploadfile;
 use App\Models\mahasiswa\MahasiswaModel;
 use Exception;
@@ -11,8 +12,6 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use PHPUnit\Framework\Constraint\IsEmpty;
-use App\Http\Requests\mahasiswa\MahasiswaRequest;
 
 /**
  * Summary of MahasiswaRepository
@@ -20,16 +19,18 @@ use App\Http\Requests\mahasiswa\MahasiswaRequest;
 class MahasiswaRepository
 {
 
-    static function upload_foto(Request $r, $nim)
+    public static function upload_foto(Request $r, $nim)
     {
         return response()->json(Uploadfile::upload_foto_mahasiswa($r, $nim));
     }
-    static function loadDataFakultas(): JsonResponse
+    public static function loadDataFakultas(): JsonResponse
     {
         $column_jurusan = ["id_jurusan", "id_fakultas", "kode_jurusan", "nama_jurusan"]; // kolom tabel jurusan
         $fakultas = DB::table("tbl_fakultas as fakultas")->selectRaw("id_fakultas,kode_fakultas,nama_fakultas")->get();
-        if (count($fakultas) == 0)
-            $message = "Empty Data Fakultas"; // check data fakultas
+        if (count($fakultas) == 0) {
+            $message = "Empty Data Fakultas";
+        }
+        // check data fakultas
         $jurusan = DB::table("tbl_jurusan as jurusan")->select($column_jurusan)->get(); // load data jurusan
         $message = "Data Found";
         $datanew = [];
@@ -49,7 +50,7 @@ class MahasiswaRepository
         } catch (\Throwable $th) {
             return response()->json([
                 "action" => 0,
-                "message" => "Error in database"
+                "message" => "Error in database",
             ], 500);
         }
         // Looping data fakultas and jurusan
@@ -60,7 +61,7 @@ class MahasiswaRepository
      * Summary of loadData
      * @return \Illuminate\Http\JsonResponse
      */
-    static function loadData(): JsonResponse
+    public static function loadData(): JsonResponse
     {
         $column_mahasiswa = [
             "mhs.id_mhs",
@@ -76,15 +77,17 @@ class MahasiswaRepository
             "mhs.nomor_hp_mhs",
             "mhs.email_mhs",
             "mhs.foto_mhs",
-            "mhs.angkatan_mhs"
+            "mhs.angkatan_mhs",
         ]; // kolom tabel join
         $data = DB::table("tbl_mahasiswa as mhs")->join("tbl_fakultas as fakultas", "fakultas.id_fakultas", "=", "mhs.id_fakultas")
             ->join("tbl_jurusan as jurusan", "jurusan.id_jurusan", "=", "mhs.id_jurusan")
             ->select($column_mahasiswa)->get();
-        if (count($data) == 0)
+        if (count($data) == 0) {
             $message = "Empty Data";
-        else
+        } else {
             $message = "Data Found";
+        }
+
         try {
             return response()->json(["data" => $data, "action" => 1, "message" => $message], 200);
         } catch (\Throwable $th) {
@@ -97,12 +100,14 @@ class MahasiswaRepository
      * @param mixed $nim
      * @return bool
      */
-    static function checkMahasiswa($nim): bool
+    public static function checkMahasiswa($nim): bool
     {
         $conditon = ["nim_mhs" => $nim];
         $data = DB::table("tbl_mahasiswa")->where($conditon)->select("nim_mhs")->get();
-        if (count($data) > 0)
+        if (count($data) > 0) {
             return true;
+        }
+
         return false;
     }
 
@@ -111,15 +116,18 @@ class MahasiswaRepository
      * @param mixed $r
      * @return \Illuminate\Http\JsonResponse
      */
-    static function createData(MahasiswaRequest $r): JsonResponse
+    public static function createData(MahasiswaRequest $r): JsonResponse
     {
         try {
             $checkmhs = self::checkMahasiswa($r->only("nim_mhs"));
-            if ($checkmhs)
+            if ($checkmhs) {
                 return response()->json(["message" => "Mahasiswa dengan nim ini telah ada", "action" => 77], 403);
+            }
+
             $command = MahasiswaModel::create($r->validated());
-            if ($command)
+            if ($command) {
                 return response()->json(["message" => "Save Data Success", "action" => 1], 200);
+            }
 
             return response()->json(["message" => "Save Data Failed", "action" => 0], 500);
 
@@ -130,13 +138,12 @@ class MahasiswaRepository
         }
     }
 
-
     /**
      * Summary of updateData
      * @param mixed $r
      * @return \Illuminate\Http\JsonResponse
      */
-    static function updateData(MahasiswaRequest $r): JsonResponse
+    public static function updateData(MahasiswaRequest $r): JsonResponse
     {
         try {
             $allowupdate = $r->except("id_mhs");
@@ -149,13 +156,12 @@ class MahasiswaRepository
         }
     }
 
-
     /**
      * Summary of deleteData
      * @param mixed $id
      * @return \Illuminate\Http\JsonResponse
      */
-    static function deleteData($id): JsonResponse
+    public static function deleteData($id): JsonResponse
     {
         try {
             MahasiswaModel::findOrFail($id);
@@ -173,37 +179,55 @@ class MahasiswaRepository
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    static function checkDuplicate(Request $request): JsonResponse
+    public static function checkDuplicate(Request $request): JsonResponse
     {
         try {
+
+            DB::beginTransaction();
             $data = $request->data;
             $nim = array_column($data, "nim");
             $kode_jurusan = array_column($data, "kode_jurusan");
             $notduplicate = DB::table("tbl_mahasiswa")->whereIn("nim_mhs", $nim)->pluck("nim_mhs")->toArray();
-            $existjurusan = DB::table("tbl_jurusan as j")->join("tbl_fakultas as f", "f.id_fakultas", "=", "j.id_fakultas")
-                ->selectRaw("f.id_fakultas,f.kode_fakultas,j.id_jurusan,j.kode_jurusan")->get();
-
             $newvalues = array_values(array_diff($nim, $notduplicate));
+
+            $fakultasData = DB::table("tbl_fakultas")->whereIn("kode_fakultas", array_column($data, "kode_fakultas"))->get()->keyBy("kode_fakultas");
+            $jurusanData = DB::table("tbl_jurusan")->whereIn("kode_jurusan", array_column($data, "kode_jurusan"))->get()->keyBy("kode_jurusan");
+
             $newdata = [];
             foreach ($data as $key => $value) {
                 if (in_array($value["nim"], $newvalues) && in_array($value["kode_jurusan"], $kode_jurusan)) {
+
                     unset($value["no"]);
-                    $value["id_fakultas"] = $existjurusan[$key]->id_fakultas;
-                    $value["id_jurusan"] = $existjurusan[$key]->id_jurusan;
+
+                    // Remove data if matching kode_fakultas doesn't exist in fetched data
+                    if (!isset($fakultasData[$value["kode_fakultas"]])) {
+                        continue;
+                    }
+                    // Remove data if matching kode_jurusan doesn't exist in fetched data
+                    if (!isset($jurusanData[$value["kode_jurusan"]])) {
+                        continue;
+                    }
+
+                    $value["id_fakultas"] = $fakultasData[$value["kode_fakultas"]]->id_fakultas;
+                    $value["id_jurusan"] = $jurusanData[$value["kode_jurusan"]]->id_jurusan;
+
                     $newdata[] = $value;
                 }
             }
+            DB::commit();
             return response()->json(["message" => "Update Data Success", "success" => true, "data" => $newdata], 200);
 
         } catch (\Throwable $th) {
+            DB::rollBack();
             return response()->json(["message" => "Error in Database " . $th, "success" => false], 500);
         }
     }
 
-    static function insertExcelData(Request $request): JsonResponse
+    public static function insertExcelData(Request $request): JsonResponse
     {
         try {
             $data = $request->data;
+
             $arr = [];
             foreach ($data as $key => $value) {
                 $arr = [
@@ -211,8 +235,9 @@ class MahasiswaRepository
                     "nama_mhs" => $value["nama"],
                     "id_fakultas" => $value["id_fakultas"],
                     "id_jurusan" => $value["id_jurusan"],
-                    "angkatan_mhs" => $value["angkatan"]
+                    "angkatan_mhs" => $value["angkatan"],
                 ];
+
                 MahasiswaModel::query()->create($arr);
             }
             return response()->json(["message" => "Create Data Success", "success" => true], 200);
@@ -221,7 +246,5 @@ class MahasiswaRepository
             return response()->json(["message" => "Error in Database " . $th, "success" => false], 500);
         }
     }
-
-
 
 }
