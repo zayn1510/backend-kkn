@@ -40,8 +40,8 @@ class JurusanRepository{
      */
     public static function createData(JurusanRequest $r):JsonResponse{
         try {
-            $allowinsert=["id_fakultas","kode_jurusan","nama_jurusan"];
-            $query=JurusanModel::create($allowinsert);
+            
+            $query=JurusanModel::create($r->validated());
             if($query) return response()->json(["check"=>1, "message"=>"Success"],200);
             return response()->json(["check"=>0,"message"=>"Failed"]);
 

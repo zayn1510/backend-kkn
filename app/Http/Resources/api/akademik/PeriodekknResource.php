@@ -15,12 +15,14 @@ class PeriodekknResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            "id"=>$this->id_periode_kkn,
-            "tahunakademik"=>$this->tahun_akademik,
-            "angkatan"=>$this->angkatan,
-            "status"=>$this->status,
-            "tanggal"=>$this->tgl_akademik,
-            "status_pendaftaran"=>$this->status_pendaftaran
+            "id" => $this->id_periode_kkn,
+            "tahunakademik" => $this->tahun_akademik,
+            "angkatan" => $this->angkatan,
+            "status" => $this->status,
+            "tanggal" => $this->tgl_akademik,
+            "tgl_mulai" => $this->tgl_mulai,
+            "tgl_selesai" => $this->tgl_selesai,
+            "status_pendaftaran" => $this->status_pendaftaran,
         ];
     }
 }

@@ -105,6 +105,11 @@
                                             <i class="ti-calendar"></i>
                                             <span>Periode KKN</span></a>
                                     </li>
+                                    <li>
+                                        <a href="{{ url('admin/berita') }}">
+                                            <i class="ti-rss"></i>
+                                            <span>Berita</span></a>
+                                    </li>
 
                                     <li>
                                     </li>

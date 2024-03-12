@@ -76,7 +76,7 @@
                 <div class="card">
                     <div class="card-body" id="tabel-toko">
                         <div class="row" style="margin-bottom: 10px;">
-                            <div class="col-4">
+                            <div class="col-6">
                                 <div class="row">
                                     <div class="col-3">
                                         <p style="font-size: 17px">@{{ ket }}</p>
@@ -97,14 +97,11 @@
                                     onchange="angular.element(this).scope().excelToJson(this)"><i class="ti-file"></i>Import
                                     Data Excel</button>
                             </div>
-                            <div class="col-2 pull-right">
-                                <div>
-                                    <button ng-click="simpanExcelData()" class="btn btn-primary"><i class="ti-save"></i>
-                                        SIMPAN</button>
-                                    <button ng-click="clearData()" class="btn btn-danger"><i class="ti-close"></i>
-                                        BATAL</button>
-                                </div>
+                            <div class="col-2">
+                                <button ng-click="clearData()" class="btn btn-danger"><i class="ti-close"></i>
+                                    Kembali</button>
                             </div>
+
                         </div>
                         <div class="data-tab">
                             <div class="row">
@@ -152,7 +149,14 @@
                                                 <td>@{{ row.angkatan }}</td>
                                             </tr>
                                         </tbody>
+
                                     </table>
+                                    <div class="button-container" style="display: none;">
+                                        <button ng-click="simpanExcelData()" class="btn btn-primary"><i
+                                                class="ti-save"></i>
+                                            SIMPAN</button>
+
+                                    </div>
                                     <div class="loading-container">
                                         <div class="loading-animation"></div>
                                         <p>Loading Data</p>
@@ -270,8 +274,9 @@
     <script src="{{ asset('assets/angularjs/angular-route.min.js') }}"></script>
     <script src="{{ asset('assets/angularjs/angular-datatables.min.js') }}"></script>
     <script src="{{ asset('assets/angularjs/sweetalert.min.js') }}"></script>
+    <script src="{{ asset('assets/js/excel/xlsx.full.min.js') }}"></script>
     <script src="{{ asset('assets/js/admin/mahasiswa/app.js') }}"></script>
     <script src="{{ asset('assets/js/admin/mahasiswa/service.js') }}"></script>
     <script src="{{ asset('assets/js/excel/jszip.js') }}"></script>
-    <script src="{{ asset('assets/js/excel/xlsx.js') }}"></script>
+
 @endsection

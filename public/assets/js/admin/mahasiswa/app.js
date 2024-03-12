@@ -77,14 +77,20 @@ app.controller("homeController", function ($scope, service) {
         const obj = {
             data: data
         }
+
         fun.datamhs = [];
         $(".loading-container").show();
+        $(".button-container").hide();
         service.checkDuplicate(obj, res => {
 
             setTimeout(() => {
                 $(".loading-container").hide();
                 fun.datamhs = res.data;
                 fun.checkmhs = true;
+                const len = res.data.length;
+                if (res.data) {
+                    $(".button-container").show();
+                }
                 fun.$apply();
             }, 3000);
         });
@@ -112,6 +118,7 @@ app.controller("homeController", function ($scope, service) {
                         arrsheet.forEach((value) => {
                             var XL_row_object = XLSX.utils.sheet_to_row_object_array(result.Sheets[value]);
                             datamhs = XL_row_object;
+
                             datasheet.push({
                                 name: value,
                                 jumlah: XL_row_object.length,
@@ -149,7 +156,7 @@ app.controller("homeController", function ($scope, service) {
                     text: "Import data excel ke database berhasil",
                     icon: "success"
                 });
-                fun.clearData();
+                fun.loadDataMahasiswa();
                 return;
             }
 

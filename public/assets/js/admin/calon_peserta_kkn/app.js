@@ -59,32 +59,29 @@ app.controller("homeController", function($scope, service) {
 
     fun.editData=(row)=>{
         fun.attr=false;
-        id_calon_kkn=row.idcalonkkn;
-        fun.nim=row.nimmhs;
-        fun.nama=row.namalengkapmhs;
-        fun.tempat_lahir=row.tempatlahir
-        fun.tgl_lahir=row.tgllahir;
+        id_calon_kkn=row.id_calon_kkn;
+        fun.nim=row.nim_mhs;
+        fun.nama=row.nama_mhs;
+        fun.tempat_lahir=row.tempat_lahir
+        fun.tgl_lahir=row.tgl_lahir;
         fun.kabupaten=row.kabupaten;
         fun.kecamatan=row.kecamatan;
         fun.desa=row.desa;
-        fun.nomor_hp=(row.notelpon!==null) ? row.notelpon : "belum ada";
+        fun.nomor_hp=(row.nomor_hp!==null) ? row.nomor_hp : "belum ada";
         fun.email=row.email;
-        fun.kode_calon_kkn=(row.kodecalonkkn!==null) ? row.kodecalonkkn :"belum ada";
-        fun.ukuran_baju=(row.ukuran_baju !==null) ? row.ukuranbaju : "belum ada";
+        fun.kode_calon_kkn=(row.kode_calon_kkn!==null) ? row.kode_calon_kkn :"belum ada";
+        fun.ukuran_baju=(row.ukuran_baju !==null) ? row.ukuran_baju : "belum ada";
 
-
-        service.getBerkasCalonKkn(row.idberkas,res=>{
-
+        service.getBerkasCalonKkn(row.id_berkas_calon,res=>{
             var data=res.data;
             fun.foto= URL_APP+"calonkkn/foto"+"/"+fun.nim+"/"+data.foto;
-            console.log(fun.foto);
             fun.sertifikat_vaksin=data.sertifikat_vaksin;
             fun.surat_izin_atasan=data.surat_izin_atasan;
             fun.surat_izin_ortu=data.surat_izin_ortu;
             fun.krs_terakhir=data.krs_terakhir;
             fun.transkip_nilai=data.transkip_nilai;
             fun.slip_pembayaran_smt=data.slip_pembayaran_smt;
-            fun.slip_pembayaran_kkn=(data.slip_pembayaran_kkn !==null) ? res.slip_pembayaran_kkn : "Belum ada";
+            fun.slip_pembayaran_kkn=(data.slip_pembayaran_kkn !==null) ? data.slip_pembayaran_kkn : "Belum ada";
             status.value=row.status;
         });
     }
