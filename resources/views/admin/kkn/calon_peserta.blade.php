@@ -67,7 +67,7 @@
                                     <tr class="text-center" ng-repeat="row in datapesertakkn">
                                         <td>@{{ $index + 1 }}</td>
                                         <td>@{{ row.nim_mhs }}</td>
-                                        <td>@{{ row.nama_hs }}</td>
+                                        <td>@{{ row.nama_mhs }}</td>
                                         <td>@{{ row.tahun_akademik }}</td>
                                         <td>@{{ row.angkatan }}</td>
                                         <td>
