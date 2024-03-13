@@ -172,6 +172,8 @@ class GroupRepo
                 ->whereRaw("group.id=?",[$exits->id_group])->selectRaw("dpl.nama_dosen,desa.kabupaten,desa.kecamatan,desa.desa")
                 ->first();
 
+
+
                 // get data member kkn
                 $member=DB::table("tbl_detail_anggota_kkn as d")
                 ->join("tbl_calon_kkn as c","c.id_calon_kkn","=","d.id_calon_kkn")

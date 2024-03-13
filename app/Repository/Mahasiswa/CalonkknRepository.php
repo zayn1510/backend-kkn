@@ -145,12 +145,10 @@ class CalonkknRepository{
             "pk.tahun_akademik","pk.angkatan","pk.tgl_akademik","mhs.tempat_lahir_mhs","mhs.tgl_lahir_mhs",
             "mhs.angkatan_mhs","dak.id as id_detail"
             )->get();
-            $filteredCollection = $result->filter(function ($item) {
-                return $item->id_detail === null;
-            });
-            $data=CalonKknResource::collection($filteredCollection);
+
+
             return response()->json([
-                "data"=>$data,
+                "data"=>$result,
                 "message"=>"success",
                 "success"=>true
             ]);

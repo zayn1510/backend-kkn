@@ -63,19 +63,19 @@
                                 <tbody>
                                     <tr>
                                         <th colspan="8">Jumlah Group Anggota KKN</th>
-                                        <th class="text-center">@{{jumlahgroup}}</th>
+                                        <th class="text-center">@{{ jumlahgroup }}</th>
                                     </tr>
                                     <tr>
                                         <th colspan="8">Jumlah Peserta KKN Telah Masuk Group </th>
-                                        <th class="text-center">@{{pesertagroup}}</th>
+                                        <th class="text-center">@{{ pesertagroup }}</th>
                                     </tr>
                                     <tr>
                                         <th colspan="8">Jumlah Peserta KKN Belum Masuk Group </th>
-                                        <th class="text-center">@{{pesertanogroup}}</th>
+                                        <th class="text-center">@{{ pesertanogroup }}</th>
                                     </tr>
                                     <tr>
                                         <th colspan="8">Jumlah Total Peserta KKN</th>
-                                        <th class="text-center">@{{totalpeserta}}</th>
+                                        <th class="text-center">@{{ totalpeserta }}</th>
                                     </tr>
                                 </tbody>
                             </table>
@@ -95,8 +95,8 @@
                             <div class="col-10">
                                 <div class="row justify-content-end">
                                     <div class="col-2">
-                                        <button class="btn btn-success poppins" style="width: 100%;" ng-click="saveData()"
-                                            ng-hide="aksi">Simpan data</button>
+                                        <button class="btn btn-success poppins" disabled id="save-group"
+                                            style="width: 100%;" ng-click="saveData()" ng-hide="aksi">Simpan data</button>
                                     </div>
                                 </div>
                             </div>
@@ -126,19 +126,19 @@
                                         <thead>
                                             <tr>
                                                 <th colspan="8">Jumlah Group Anggota KKN</th>
-                                                <th class="text-center">@{{jumlahgroup}}</th>
+                                                <th class="text-center">@{{ jumlahgroup }}</th>
                                             </tr>
                                             <tr>
                                                 <th colspan="8">Jumlah Peserta KKN Telah Masuk Group </th>
-                                                <th class="text-center">@{{pesertagroup}}</th>
+                                                <th class="text-center">@{{ pesertagroup }}</th>
                                             </tr>
                                             <tr>
                                                 <th colspan="8">Jumlah Peserta KKN Belum Masuk Group </th>
-                                                <th class="text-center">@{{pesertanogroup}}</th>
+                                                <th class="text-center">@{{ pesertanogroup }}</th>
                                             </tr>
                                             <tr>
                                                 <th colspan="8">Jumlah Total Peserta KKN</th>
-                                                <th class="text-center">@{{totalpeserta}}</th>
+                                                <th class="text-center">@{{ totalpeserta }}</th>
                                             </tr>
                                         </thead>
                                     </table>
@@ -146,16 +146,19 @@
                                 <div class="col-md-6">
                                     <div class="row">
                                         <div class="col-12">
-                                            <div class="alert alert-danger" ng-show="checkerror">@{{ error }}</div>
+                                            <div class="alert alert-danger" ng-show="checkerror">@{{ error }}
+                                            </div>
                                             <div class="row">
                                                 <div class="col-2">
                                                     <p class="poppins mg-top">Dosen</p>
                                                 </div>
                                                 <div class="col-10">
                                                     <div class="form-periode">
-                                                        <select class="form-control group poppins" style="margin-bottom: 20px">
+                                                        <select class="form-control group poppins"
+                                                            style="margin-bottom: 20px">
                                                             <option value="">Pilih Dosen Pembimbing Lapangan</option>
-                                                            <option ng-repeat="row in datadpl" value="@{{ row.id_dpl }}">
+                                                            <option ng-repeat="row in datadpl"
+                                                                value="@{{ row.id_dpl }}">
                                                                 @{{ row.gelar_depan }} @{{ row.nama_dosen }}
                                                                 @{{ row.gelar_belakang }}</option>
                                                         </select>
@@ -173,7 +176,8 @@
                                                     <div class="form-periode">
                                                         <select class="form-control group poppins">
                                                             <option value="">Pilih Kabupaten</option>
-                                                            <option ng-repeat="row in datadesa" value="@{{ row.id_desa }}">
+                                                            <option ng-repeat="row in datadesa"
+                                                                value="@{{ row.id_desa }}">
                                                                 @{{ row.kabupaten }} @{{ row.kecamatan }}
                                                                 @{{ row.desa }}</option>
                                                         </select>
@@ -201,13 +205,12 @@
                                                 <tbody style="font-size: 12px">
                                                     <tr class="text-center" ng-repeat="row in dataanggota">
                                                         <td>@{{ $index + 1 }}</td>
-                                                        <td>@{{ row.nimmhs }}</td>
-                                                        <td>@{{ row.namalengkapmhs }}</td>
+                                                        <td>@{{ row.nim_mhs }}</td>
+                                                        <td>@{{ row.nama_mhs }}</td>
                                                         <td>
-                                                            <button class="alert alert-success btn-edit" ng-if="row.check==false"
-                                                                ng-click="updateCalonKkn(row,true)"> Tambah Data</button>
-                                                            <button class="alert alert-danger btn-edit" ng-if="row.check==true"
-                                                                ng-click="updateCalonKkn(row,false)"> Hapus Data</button>
+                                                            <button class="alert alert-success btn-edit"
+                                                                data-target="true"
+                                                                ng-click="updateCalonKkn(row,$event)">Tambah Data</button>
                                                         </td>
                                                     </tr>
                                                 </tbody>
@@ -293,7 +296,7 @@
                                         <tfoot>
                                             <tr>
                                                 <th colspan="2" class="text-center">Jumlah Mahasiswa</th>
-                                                <th class="text-center">@{{jumlah}}</th>
+                                                <th class="text-center">@{{ jumlah }}</th>
                                             </tr>
                                         </tfoot>
                                     </table>
